@@ -1,2 +1,3 @@
-# msc-group-project
-Application integration for restaurant apps
+# Backend repository
+
+## Applciation Integration for Restaurant Apps

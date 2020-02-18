@@ -1,3 +1,3 @@
-# Backend repository
+# Our Backend Repository
 
-## Applciation Integration for Restaurant Apps
+## Application Integration for Restaurant Apps

@@ -59,13 +59,15 @@ class SetPriceRankHandler(BaseLambdaHandler):
             'body': json.dumps('Price ranks set successfully!')
         }
 
-    def rankPriceList(self, priceList):
+    @staticmethod
+    def rankPriceList(priceList):
         avgPrice = round(sum(priceList) / len(priceList), 2)
         print("Venue Average: ", avgPrice)
         rank = 3 if avgPrice >= 20 else (2 if avgPrice >= 10 else 1)
         return rank
 
-    def getPriceList(self, menu):
+    @staticmethod
+    def getPriceList(menu):
         priecList = []
         for category in menu:
             items = menu[category]

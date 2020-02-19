@@ -3,6 +3,7 @@ from main.lambdautils.DBConnection import DynamoConn
 from main.venueobjects.getVenues import GetVenuesHandler
 from main.menuobjects.getMenu import GetMenuHandler
 import json
+import json
 
 
 class SetTagsHandler(BaseLambdaHandler):

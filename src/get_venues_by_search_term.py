@@ -8,7 +8,6 @@ from botocore.exceptions import ClientError
 
 ## Should take in tags, return ENTIRE row in Venues table
 ## Should take in search term, return ENTIRE row in Venues table
-
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, decimal.Decimal):

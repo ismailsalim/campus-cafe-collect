@@ -1,3 +1,4 @@
+import unittest
 from unittest import TestCase
 
 from main.posobjects.OdooPOS import OdooPOS
@@ -27,3 +28,7 @@ class TestOdooPos(TestCase):
 
     def testFormatsMenuCorrectly(self):
         self.assertEqual(self.formattedMenu, self.api_instance.formatMenu(self.unformattedMenu))
+
+    def testRaisesRuntimeErrorWhenMenuIsEmpty(self):
+        with self.assertRaises(RuntimeError):
+            self.api_instance.formatMenu([])

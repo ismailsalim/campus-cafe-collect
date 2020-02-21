@@ -5,31 +5,28 @@ from main.menuobjects.getMenu import GetMenuHandler
 import json
 
 
+# default dbOject table should be venues
 class SetTagsHandler(BaseLambdaHandler):
     def __init__(self, dbObject):
         super().__init__(dbObject)
 
     def handle_request(self, event, context):
-        venuesConn = DynamoConn("Venues")
-        getVenueHandler = GetVenuesHandler(venuesConn)  # creating an object to return all venues
-
-        credentialsConn = DynamoConn('Credentials')
-        getMenuHandler = GetMenuHandler(credentialsConn)
+        dbTable = self.db.getTable()
 
         # fetch all the venue data
-        response = getVenueHandler.handler_request(event=None, context=None)
+        response = self.getAllVenues()
         if response['statusCode'] == self.successCode:
             venues = json.loads(response['body'])
             # do something here if fails
         else:
-            raise RuntimeError("Could not fetch all venues")
+            return {
+                'statusCode': self.clientErrorCode,
+            }
 
         tags_and_counts = {}
         tags_and_venues = {}
 
         for venue in venues:
-            venue_tags = set()
-
             venue_id = venue['venueid']
             type_id = venue['typeid']
 
@@ -38,48 +35,41 @@ class SetTagsHandler(BaseLambdaHandler):
                 "venueid": venue_id,
                 "typeid": type_id
             }
+
             print("CALLING GET MENU")
-            response = getMenuHandler.handle_request(event = input_params, context = None)
+            response = self.getMenuForVenue(input_params)
 
             if response['statusCode'] != self.successCode:
                 continue
 
             menu = json.loads(response['body'])
 
-            tags = self.getTagsFromMenu(menu)
+            venue_tags = self.getTagsFromMenu(menu)
 
-            # generate tags associated with each venue
-            for category in menu:
-                items = menu[category]
-                for item in items:
-                    tags = item[0].lower().split()
-                    venue_tags.update(tags)
+            venue_tags = self.process_tags(list(venue_tags))
 
-            final_venue_tags = self.process_tags(list(venue_tags))
+            self.add_to_tags_counts(venue_tags, tags_and_counts)
 
-            self.add_to_tags_counts(final_venue_tags, tags_and_counts)
+            self.add_to_tags_venues(venue_tags, venue_id, type_id, tags_and_venues)
 
-            self.add_to_tags_venues(final_venue_tags, venue_id, type_id, tags_and_venues)
-
-            print("")
-            print("VENUE TAG SET", final_venue_tags)
-            print("")
+            print("\nVENUE TAG SET", venue_tags, "\n")
             # updating tags attribute for each venue in venues
-            venues_table.update_item(
+            dbTable.update_item(  # TODO not the best implementation here. look to refactor later
                 Key={
                     'venueid': venue_id,
                     'typeid': type_id
                 },
                 UpdateExpression="set tags = :t",
                 ExpressionAttributeValues={
-                    ':t': final_venue_tags
+                    ':t': venue_tags
                 }
             )
 
-        tag_table = dynamodb.Table('FoodTags')
+        self.updateTable('FoodTags')
+        dbTable = self.db.getTable()
         # NOTE: Each list item in venues will be a list [venue_id, type]
         for (t1, count), (t2, venues) in zip(tags_and_counts.items(), tags_and_venues.items()):
-            tag_table.put_item(
+            dbTable.put_item(
                 TableName='FoodTags',
                 Item={
                     'foodtag': t1,
@@ -88,46 +78,74 @@ class SetTagsHandler(BaseLambdaHandler):
                 }
             )
 
-        print("")
-        print("FINAL TAG and COUNTS", tags_and_counts)
-        print("FINAL TAG and VENUES", tags_and_venues)
-        print("")
+        print("\nFINAL TAG and COUNTS", tags_and_counts)
+        print("FINAL TAG and VENUES", tags_and_venues, "\n")
 
         return {
-            'statusCode': 200,
+            'statusCode': self.successCode,
         }
 
     def process_tags(self, tags_list):
-        # removes digits
-        tags_list = [x for x in tags_list if not any(x1.isdigit() for x1 in x)]
-
-        # removes punctuation
-        punctuation = string.punctuation.replace("-", "")  # preserve hyphenated words
-        tags_list = [''.join(c for c in t if c not in punctuation) for t in tags_list]
-
-        # remove tags of length less than two
-        tags_list = [t for t in tags_list if len(t) > 2]
+        tags_list = self.removeTagsWithDigits(tags_list)
+        tags_list = self.removePunctuationInTags(tags_list)
+        tags_list = self.filterTagLength(tags_list)
 
         return tags_list
 
-    def add_to_tags_counts(self, tags, tags_and_counts):
+    def updateTable(self, newTable):
+        self.db.updateTable(newTable)
+
+    @staticmethod
+    def getAllVenues():
+        conn = DynamoConn("Venues")  # will be used later on as well
+        getVenuesHandler = GetVenuesHandler(conn)
+        return getVenuesHandler.handle_request(event=None, context=None)
+
+    @staticmethod
+    def getMenuForVenue(params):
+        getMenuHandler = GetMenuHandler(DynamoConn('Credentials'))
+        return getMenuHandler.handle_request(event=params, context=None)
+
+    @staticmethod
+    def removeTagsWithDigits(tags_list):
+        # removes tags with digits
+        return [x for x in tags_list if not any(x1.isdigit() for x1 in x)]
+
+    @staticmethod
+    def removePunctuationInTags(tags_list):
+        # removes punctuation from tags
+        return [''.join(letter for letter in tag if letter == '-' or letter.isalpha()) for tag in tags_list]
+
+    @staticmethod
+    def filterTagLength(tags_list):
+        # remove tags of length less than two
+        return [tag for tag in tags_list if len(tag) >= 2]
+
+    @staticmethod
+    def add_to_tags_counts(tags, tags_and_counts):
         for tag in tags:
-            if not tag in tags_and_counts:
+            if tag not in tags_and_counts:
                 tags_and_counts[tag] = 1
             else:
                 tags_and_counts[tag] += 1
+        return tags_and_counts
 
-    def add_to_tags_venues(self, tags, venue, type_id, tags_and_venues):
+    @staticmethod
+    def add_to_tags_venues(tags, venue, type_id, tags_and_venues):
         for tag in tags:
-            if not tag in tags_and_venues:
+            if tag not in tags_and_venues:
                 tags_and_venues[tag] = [[venue, type_id]]
             else:
                 tags_and_venues[tag].append([venue, type_id])
+        return tags_and_venues
 
-    def getTagsFromMenu(self, menu):
+    @staticmethod
+    def getTagsFromMenu(menu):
         # generate tags associated with each venue
+        venue_tags = set()
         for category in menu:
             items = menu[category]
             for item in items:
                 tags = item[0].lower().split()
                 venue_tags.update(tags)
+        return venue_tags

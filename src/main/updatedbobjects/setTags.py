@@ -5,24 +5,23 @@ from main.menuobjects.getMenu import GetMenuHandler
 import json
 
 
+# default dbOject table should be venues
 class SetTagsHandler(BaseLambdaHandler):
     def __init__(self, dbObject):
         super().__init__(dbObject)
 
     def handle_request(self, event, context):
-        venuesConn = DynamoConn("Venues")
-        getVenueHandler = GetVenuesHandler(venuesConn)  # creating an object to return all venues
-
-        credentialsConn = DynamoConn('Credentials')
-        getMenuHandler = GetMenuHandler(credentialsConn)
+        dbTable = self.db.getTable()
 
         # fetch all the venue data
-        response = getVenueHandler.handle_request(event=None, context=None)
+        response = self.getAllVenues()
         if response['statusCode'] == self.successCode:
             venues = json.loads(response['body'])
             # do something here if fails
         else:
-            raise RuntimeError("Could not fetch all venues")
+            return {
+                'statusCode': self.clientErrorCode,
+            }
 
         tags_and_counts = {}
         tags_and_venues = {}
@@ -36,8 +35,9 @@ class SetTagsHandler(BaseLambdaHandler):
                 "venueid": venue_id,
                 "typeid": type_id
             }
+
             print("CALLING GET MENU")
-            response = getMenuHandler.handle_request(event=input_params, context=None)
+            response = self.getMenuForVenue(input_params)
 
             if response['statusCode'] != self.successCode:
                 continue
@@ -54,7 +54,7 @@ class SetTagsHandler(BaseLambdaHandler):
 
             print("\nVENUE TAG SET", venue_tags, "\n")
             # updating tags attribute for each venue in venues
-            venuesConn.getTable().update_item( # not the best implementation here. look to refactor later
+            dbTable.update_item(  # TODO not the best implementation here. look to refactor later
                 Key={
                     'venueid': venue_id,
                     'typeid': type_id
@@ -65,10 +65,11 @@ class SetTagsHandler(BaseLambdaHandler):
                 }
             )
 
-        tagsConn = DynamoConn('FoodTags').getTable()
+        self.updateTable('FoodTags')
+        dbTable = self.db.getTable()
         # NOTE: Each list item in venues will be a list [venue_id, type]
         for (t1, count), (t2, venues) in zip(tags_and_counts.items(), tags_and_venues.items()):
-            tagsConn.put_item(
+            dbTable.put_item(
                 TableName='FoodTags',
                 Item={
                     'foodtag': t1,
@@ -91,6 +92,20 @@ class SetTagsHandler(BaseLambdaHandler):
 
         return tags_list
 
+    def updateTable(self, newTable):
+        self.db.updateTable(newTable)
+
+    @staticmethod
+    def getAllVenues():
+        conn = DynamoConn("Venues")  # will be used later on as well
+        getVenuesHandler = GetVenuesHandler(conn)
+        return getVenuesHandler.handle_request(event=None, context=None)
+
+    @staticmethod
+    def getMenuForVenue(params):
+        getMenuHandler = GetMenuHandler(DynamoConn('Credentials'))
+        return getMenuHandler.handle_request(event=params, context=None)
+
     @staticmethod
     def removeTagsWithDigits(tags_list):
         # removes tags with digits
@@ -104,7 +119,7 @@ class SetTagsHandler(BaseLambdaHandler):
     @staticmethod
     def filterTagLength(tags_list):
         # remove tags of length less than two
-        return [tag for tag in tags_list if len(tag) > 2]
+        return [tag for tag in tags_list if len(tag) >= 2]
 
     @staticmethod
     def add_to_tags_counts(tags, tags_and_counts):
@@ -113,6 +128,7 @@ class SetTagsHandler(BaseLambdaHandler):
                 tags_and_counts[tag] = 1
             else:
                 tags_and_counts[tag] += 1
+        return tags_and_counts
 
     @staticmethod
     def add_to_tags_venues(tags, venue, type_id, tags_and_venues):
@@ -121,6 +137,7 @@ class SetTagsHandler(BaseLambdaHandler):
                 tags_and_venues[tag] = [[venue, type_id]]
             else:
                 tags_and_venues[tag].append([venue, type_id])
+        return tags_and_venues
 
     @staticmethod
     def getTagsFromMenu(menu):

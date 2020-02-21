@@ -19,18 +19,18 @@ class OdooPOS(BasePOS):
             self.uid = common.authenticate(self.db, self.username, self.password, {})
             self.conn = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(self.url))
             self.conn.execute_kw(self.db, self.uid, self.password,
-                                   'res.partner', 'check_access_rights',
-                                   ['read'], {'raise_exception': False})
-        except Exception as e: # think what to do here
+                                 'res.partner', 'check_access_rights',
+                                 ['read'], {'raise_exception': False})
+        except Exception as e:  # think what to do here
             raise OdooAPIException(e)
 
     def getMenu(self):
         self.getConnection()
         ids = self.conn.execute_kw(self.db, self.uid, self.password, 'product.product', 'search',
-                                     [[['available_in_pos', '=', True], ['type', '=', 'consu']]])
+                                   [[['available_in_pos', '=', True], ['type', '=', 'consu']]])
         return self.formatMenu(
             self.conn.execute_kw(self.db, self.uid, self.password, 'product.product', 'read', [ids],
-                                   {'fields': ['display_name', 'list_price', 'categ_id']}))
+                                 {'fields': ['display_name', 'list_price', 'categ_id']}))
 
     def formatMenu(self, menu):
         if len(menu) == 0:

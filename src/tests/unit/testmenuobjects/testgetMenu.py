@@ -1,11 +1,12 @@
 from unittest import TestCase
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 from main.menuobjects.getMenu import GetMenuHandler
+from botocore.exceptions import ClientError
 
 
 class TestGetMenu(TestCase):
     def setUp(self) -> None:
-        self.mockDB = SubscriptMock()
+        self.mockDB = SubscriptMock() # TODO can configure Mock here and derive any other classes
         self.handler = GetMenuHandler(self.mockDB)
         self.OdooposID = 'Odoo'
         self.Odoocredentials = ['user', 'password', 'url', 'db']
@@ -18,9 +19,20 @@ class TestGetMenu(TestCase):
     def testRaisesErrorWithUnknownPOSID(self) -> None:
         self.assertRaises(NotImplementedError, self.handler.getPOSObject, 'UnknownAPI', '1', self.Odoocredentials)
 
-    def testHandlesRequestWithMockDB(self) -> None:
+    @patch('main.posobjects.OdooPOS.OdooPOS.getMenu', return_value={'a1': [('b1', 'p1')]})
+    def testHandlesRequestWithMockDB(self, mockMethod) -> None:
         self.handler.handle_request(self.event, self.context)
         self.mockDB.getTable.assert_called_once()
+
+    @patch('main.posobjects.OdooPOS.OdooPOS.getMenu', return_value=Exception)
+    def testReturnsErrorCodeInCaseOfAPIException(self, mockMethod) -> None:
+        self.assertEqual(self.handler.handle_request(self.event, self.context),
+                         {'statusCode': self.handler.clientErrorCode})
+
+    @patch('main.lambdautils.DBConnection.DynamoConn.getTable', return_value=ClientError)
+    def testReturnsErrorCodeInCaseCannotReadTable(self, mockMethod):
+        self.assertEqual(self.handler.handle_request(self.event, self.context),
+                         {'statusCode': self.handler.clientErrorCode})
 
 
 class SubscriptMock(Mock):  # need a subscriptable mock, need to think about how to not set posid to Odoo only

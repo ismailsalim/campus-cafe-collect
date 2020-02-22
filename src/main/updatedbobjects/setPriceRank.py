@@ -11,18 +11,15 @@ class SetPriceRankHandler(BaseLambdaHandler):
         super().__init__(dbOject)
 
     def handle_request(self, event, context):
-        venuesConn = DynamoConn("Venues")
-        getVenueHandler = GetVenuesHandler(venuesConn)  # creating an object to return all venues
 
-        credentialsConn = DynamoConn('Credentials')
-        getMenuHandler = GetMenuHandler(credentialsConn)
-
-        response = getVenueHandler.handle_request(event=None, context=None)
+        response = self.getAllVenues()
         if response['statusCode'] == self.successCode:
             venues = json.loads(response['body'])
             # do something here if fails
         else:
-            raise RuntimeError("Could not fetch all venues")
+            return {
+                'statusCode': self.clientErrorCode,
+            }
 
         table = self.db.getTable()
         for venue in venues:
@@ -33,10 +30,12 @@ class SetPriceRankHandler(BaseLambdaHandler):
                 "typeid": type_id
             }
             # fetching the menu from a specific venue
-            response = getMenuHandler.handle_request(event=input_params,context=None)
+            response = self.getMenuForVenue(input_params)
 
             if response['statusCode'] != self.successCode:
-                continue  # log here
+                return {
+                    'statusCode': self.clientErrorCode,
+                }  # log here
 
             menu = json.loads(response['body'])
             venue_prices = self.getPriceList(menu)
@@ -59,16 +58,29 @@ class SetPriceRankHandler(BaseLambdaHandler):
             'body': json.dumps('Price ranks set successfully!')
         }
 
-    def rankPriceList(self, priceList):
+    @staticmethod
+    def rankPriceList(priceList):
         avgPrice = round(sum(priceList) / len(priceList), 2)
         print("Venue Average: ", avgPrice)
         rank = 3 if avgPrice >= 20 else (2 if avgPrice >= 10 else 1)
         return rank
 
-    def getPriceList(self, menu):
+    @staticmethod
+    def getPriceList(menu):
         priecList = []
         for category in menu:
             items = menu[category]
             priecList += [float(item[1]) for item in items]
         print("Venue Price List:", priecList)
         return priecList
+
+    @staticmethod
+    def getAllVenues():
+        conn = DynamoConn("Venues")  # will be used later on as well
+        getVenuesHandler = GetVenuesHandler(conn)
+        return getVenuesHandler.handle_request(event=None, context=None)
+
+    @staticmethod
+    def getMenuForVenue(params):
+        getMenuHandler = GetMenuHandler(DynamoConn('Credentials'))
+        return getMenuHandler.handle_request(event=params, context=None)

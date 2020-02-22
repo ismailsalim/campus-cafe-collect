@@ -66,9 +66,10 @@ class SetPriceRankHandler(BaseLambdaHandler):
         return rank
 
     def getPriceList(self, menu):
+        price_idx = 2
         priecList = []
         for category in menu:
             items = menu[category]
-            priecList += [float(item[1]) for item in items]
+            priecList += [float(item[price_idx]) for item in items]
         print("Venue Price List:", priecList)
         return priecList

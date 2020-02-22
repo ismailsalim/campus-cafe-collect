@@ -30,7 +30,7 @@ class OdooPOS(BasePOS):
                                    [[['available_in_pos', '=', True], ['type', '=', 'consu']]])
         return self.formatMenu(
             self.conn.execute_kw(self.db, self.uid, self.password, 'product.product', 'read', [ids],
-                                 {'fields': ['display_name', 'list_price', 'categ_id']}))
+                                 {'fields': ['display_name', 'list_price', 'categ_id', 'id']}))
 
     def formatMenu(self, menu):
         if len(menu) == 0:
@@ -48,7 +48,7 @@ class OdooPOS(BasePOS):
 
         # return a structured dictionary with the food item name and price
         for categ in categs:
-            return_menu[categ] = [(item['display_name'], item['list_price']) for item in food_items if
+            return_menu[categ] = [(item['id'], item['display_name'], item['list_price']) for item in food_items if
                                   item['categ_id'][1] == categ]
 
         return return_menu

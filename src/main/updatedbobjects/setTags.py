@@ -142,10 +142,11 @@ class SetTagsHandler(BaseLambdaHandler):
     @staticmethod
     def getTagsFromMenu(menu):
         # generate tags associated with each venue
+        name_idx = 1
         venue_tags = set()
         for category in menu:
             items = menu[category]
             for item in items:
-                tags = item[0].lower().split()
+                tags = item[name_idx].lower().split()
                 venue_tags.update(tags)
         return venue_tags

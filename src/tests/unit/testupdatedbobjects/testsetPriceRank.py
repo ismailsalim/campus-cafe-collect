@@ -1,12 +1,17 @@
 from unittest import TestCase
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
+import json
+
 from main.updatedbobjects.setPriceRank import SetPriceRankHandler
+from main.lambdautils.DBConnection import DynamoConn
 
 
 class TestSetPriceRank(TestCase):
     def setUp(self) -> None:
         self.mockDB = Mock()
-        self.handler = SetPriceRankHandler(Mock)
+        # self.mockDB.getTable = Mock()
+        # self.mockDB.getTable().update_item = Mock()
+        self.handler = SetPriceRankHandler(self.mockDB)
         self.genericPriceList = [12, 16, 19, 20, 15.4, 0.99, 100]
         self.genericPriceListRank = 3
         self.menu = {
@@ -15,9 +20,39 @@ class TestSetPriceRank(TestCase):
             'third': [('c', '3'), ('c', '3'), ('c', '3')]
         }
         self.priceListFromMenu = [1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0]
+        self.successCase = {'statusCode': self.handler.successCode,
+                            'body': json.dumps('Price ranks set successfully!')}
+        self.failCase = {'statusCode': self.handler.clientErrorCode}
+
+    MOCKGETVENUESRESULT = {'statusCode': 200,
+                           'body': json.dumps([{'venueid': '1', 'typeid': '1'}, {'venueid': '2', 'typeid': '2'}])}
+
+    MOCKFAILGETRESULT = {'statusCode': 404}
+
+    MOCKGETMENURESULT = {'statusCode': 200,
+                         'body': json.dumps({
+                             'categ1': [('itemOne', '1.0')],
+                             'categ2': [('itemTwo', '2.5')],
+                             'categ3': [('itemThree', '6.9')]
+                         })}
 
     def testRanksPriceListCorrectly(self):
         self.assertEqual(self.genericPriceListRank, self.handler.rankPriceList(self.genericPriceList))
 
     def testConvertsToFloat(self):
         self.assertEqual(self.priceListFromMenu, self.handler.getPriceList(self.menu))
+
+    @patch('main.updatedbobjects.setPriceRank.SetPriceRankHandler.getAllVenues', return_value=MOCKGETVENUESRESULT)
+    @patch('main.updatedbobjects.setPriceRank.SetPriceRankHandler.getMenuForVenue', return_value=MOCKGETMENURESULT)
+    def testProcessesEvent(self, mockVenueMethod, mockMenuMethod):
+        self.assertEqual(self.successCase, self.handler.handle_request(None, None))
+
+    @patch('main.updatedbobjects.setPriceRank.SetPriceRankHandler.getAllVenues', return_value=MOCKFAILGETRESULT)
+    def testReturnsErrorCodeIfCannotGetVenues(self, mockVenueMethod):
+        self.assertEqual(self.failCase, self.handler.handle_request(None, None))
+
+    @patch('main.updatedbobjects.setPriceRank.SetPriceRankHandler.getMenuForVenue', return_value=MOCKFAILGETRESULT)
+    def testReturnsErrorCodeIfCannotGetMenu(self, mockVenueMethod):
+        self.assertEqual(self.failCase, self.handler.handle_request(None, None))
+
+

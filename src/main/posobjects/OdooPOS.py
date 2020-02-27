@@ -12,6 +12,8 @@ class OdooPOS(BasePOS):
         self.db = creds[3]
         self.conn = None
         self.uid = None
+        self.session_id = None
+        self.order_id = None
 
     def getConnection(self):
         try:
@@ -21,6 +23,9 @@ class OdooPOS(BasePOS):
             self.conn.execute_kw(self.db, self.uid, self.password,
                                  'res.partner', 'check_access_rights',
                                  ['read'], {'raise_exception': False})
+            self.session_id = self.conn.execute_kw(self.db, self.uid, self.password,
+                                                   'pos.session', 'search', [[['state', '=', 'opened']]]
+                                                   )
         except Exception as e:  # think what to do here
             raise OdooAPIException(e)
 
@@ -52,6 +57,45 @@ class OdooPOS(BasePOS):
                                   item['categ_id'][1] == categ]
 
         return return_menu
+
+    def createOrder(self):
+        self.order_id = self.conn.execute_kw(self.db, self.uid, self.password,
+                                             'pos.order', 'create', [{'session_id': self.session_id[0],
+                                                                      'amount_tax': 0, 'amount_total': 0,
+                                                                      'amount_paid': 0, 'amount_return': 0}])
+
+    def pushOrder(self, order):
+        self.getConnection()
+        self.createOrder()
+
+        processedOrder = []
+        for product in order:
+            price = float(order[product]['price'])
+            quantity = float(order[product]['quantity'])
+            name = order[product]['username']
+            priceSubtotal = price * quantity
+            priceSubtotaIncl = priceSubtotal * self.vat
+            processedOrder.append(
+                {'qty': quantity, 'price_subtotal': priceSubtotal, 'price_subtotal_incl': priceSubtotaIncl,
+                 'order_id': self.order_id, 'price_unit': price, 'product_id': product})
+        subtotal = 0
+        subtotalIncl = 0
+
+        for product in processedOrder:
+            subtotal += product['price_subtotal']
+            subtotalIncl += product['price_subtotal_incl']
+        amountTax = subtotalIncl - subtotal
+
+        self.conn.execute_kw(self.db, self.uid, self.password, 'pos.order.line', 'create', [processedOrder])
+        reference = str(self.session_id) + "-" + str(self.order_id) + " " + name
+        self.conn.execute_kw(self.db, self.uid, self.password, 'pos.order', 'write',
+                             [self.order_id, {'pos_reference': reference,
+                                              'amount_tax': amountTax,
+                                              'amount_total': subtotalIncl,
+                                              'amount_paid': subtotalIncl,
+                                              'amount_return': 0,
+                                              'state': 'paid'}])
+        return reference
 
     def __str__(self):
         return self.POStype

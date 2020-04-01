@@ -1,3 +1,5 @@
-# Our Backend Repository
+# Application Integration for Restaurant Apps
 
-## Application Integration for Restaurant Apps
+## Back-end repository
+
+### AWS Lambda Functions

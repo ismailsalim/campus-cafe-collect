@@ -1,6 +1,6 @@
 import xmlrpc.client
 from BasePOS import BasePOS
-
+from SendConfirmationEmail import get_customer_email
 
 class OdooPOS(BasePOS):
     def __init__(self, venueID, creds):
@@ -64,44 +64,61 @@ class OdooPOS(BasePOS):
                                                                       'amount_tax': 0, 'amount_total': 0,
                                                                       'amount_paid': 0, 'amount_return': 0}])
                                                                       
-    def pushOrder(self, order):
+    def pushOrder(self, event):
         self.getConnection()
         self.createOrder()
+        order = event["data"]["object"]["display_items"]
         
-        # Remove this
-
+        # Creates a dictionary of the order items suitable for Odoo
         processedOrder = []
         for product in order:
             price = float(product['amount'])/100
             quantity = float(product['quantity'])
             name = product['custom']['name']
             priceSubtotal = price * quantity
-            priceSubtotaIncl = priceSubtotal * self.vat
+            priceSubtotaIncl = priceSubtotal
 
             ids = self.conn.execute_kw(self.db, self.uid, self.password,'product.product', 'search',[[['available_in_pos','=',True],['name','=',name]]])
             prod_id = self.conn.execute_kw(self.db, self.uid, self.password,'product.product', 'read', [ids],{'fields': ['id']})
             prod_id = prod_id[0]["id"]
 
             processedOrder.append({'qty': quantity, 'price_subtotal': priceSubtotal, 'price_subtotal_incl': priceSubtotaIncl,'order_id': self.order_id, 'price_unit': price, 'product_id': prod_id})
-            
+        
+        # Calculates the totals
         subtotal = 0
         subtotalIncl = 0
-        
         for product in processedOrder:
             subtotal += product['price_subtotal']
             subtotalIncl += product['price_subtotal_incl']
         amountTax = subtotalIncl - subtotal
 
+        # Creates an order, listing all items ordered, in Odoo
         self.conn.execute_kw(self.db, self.uid, self.password, 'pos.order.line', 'create', [processedOrder])
-        reference = str(self.session_id) + "-" + str(self.order_id) + " " + name
+        id_number = event["data"]["object"]["id"]
+        receipt_number = id_number[-8:]
+
+        # Getting client's email 
+        # If customer exists already, we use the existing customer in Odoo database
+        email = get_customer_email(event)
+        print(email)
+        client_id = self.conn.execute_kw(self.db, self.uid, self.password,'res.partner', 'search',[[['name','=',email]]])
+       
+        # If customer does not exist, we create a new customer in Odoo database
+        if len(client_id)==0:
+            client_id = self.conn.execute_kw(self.db,self.uid,self.password,'res.partner','create',[{'name':email}])
+        else:
+            client_id = client_id[0]
+
+        # Pushing payment details to Odoo
         self.conn.execute_kw(self.db, self.uid, self.password, 'pos.order', 'write',
-                             [self.order_id, {'pos_reference': reference,
+                             [self.order_id, {'pos_reference': receipt_number,
                                               'amount_tax': amountTax,
                                               'amount_total': subtotalIncl,
                                               'amount_paid': subtotalIncl,
                                               'amount_return': 0,
+                                              'partner_id' : client_id,
                                               'state': 'paid'}])
-        return reference
+        return receipt_number
 
     def __str__(self):
         return self.POStype

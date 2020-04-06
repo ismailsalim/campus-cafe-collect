@@ -13,8 +13,7 @@ class PushOrderHandler(BaseLambdaHandler):
         table = self.db.getTable()
         
         venue_id = event["data"]["object"]["metadata"]["venueid"]
-        type_id = '1'
-        #type_id = event[ids[0]]['typeid']
+        type_id = event["data"]["object"]["metadata"]["typeid"]
 
         try:
             response = table.get_item(
@@ -35,8 +34,7 @@ class PushOrderHandler(BaseLambdaHandler):
         pos = self.getPOSObject(pos_id, venue_id, creds)
 
         try:
-            items = event["data"]["object"]["display_items"]
-            receipt = pos.pushOrder(items)
+            receipt = pos.pushOrder(event)
         except ClientError as e:
             return {
                 'statusCode':self.clientErrorCode

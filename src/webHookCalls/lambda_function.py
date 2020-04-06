@@ -3,16 +3,23 @@ import stripe
 from django.http import HttpResponse
 from PushOrderHandler import PushOrderHandler
 from DBConnection import DynamoConn
+from SendConfirmationEmail import send_confirmation_email
 
 #Using Django
 #@csrf_exempt
 
+stripe.api_key = "sk_test_MPd2vPMcOQb0TIqTG0qDiYs900fbJyaxW0"
+
 def lambda_handler(event, context):
+    data = event['body']
+    json_acceptable_string = data.replace("'","\"")
+    input = json.loads(json_acceptable_string)
+
     event_pi = None
 
     try:
         event_pi = stripe.Event.construct_from(
-        event, stripe.api_key
+        input, stripe.api_key
         )
     except ValueError as e:
         # Invalid payload
@@ -24,7 +31,11 @@ def lambda_handler(event, context):
         payment_intent = event_pi.data.object    # Not sure if needed     
         conn = DynamoConn('Credentials')
         handler = PushOrderHandler(conn)
-        return handler.handle_request(event, context)
+
+        handler_response = handler.handle_request(input, context)
+        send_confirmation_email(input)
+
+        return handler_response
 
     else:
         # Unexpected event type

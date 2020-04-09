@@ -118,6 +118,11 @@ class OdooPOS(BasePOS):
                                               'amount_return': 0,
                                               'partner_id' : client_id,
                                               'state': 'paid'}])
+
+        # Pushing payment amount to Odoo
+        self.conn.execute_kw(self.db, self.uid, self.password, 'pos.payment' , 'create', 
+        [{'payment_method_id':2, 'transaction_id': receipt_number, 'pos_order_id':self.order_id, 'amount':subtotalIncl}])
+
         return receipt_number
 
     def __str__(self):

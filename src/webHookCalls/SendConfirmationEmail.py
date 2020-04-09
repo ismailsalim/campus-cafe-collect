@@ -71,7 +71,6 @@ def send_email(email_address, receipt_number, restaurant_name, order_amount):
     # Terminate the SMTP session and close the connection
     s.quit()
 
-
 def calculate_total(event):
     processedOrder = event["data"]["object"]["display_items"]
     total = 0

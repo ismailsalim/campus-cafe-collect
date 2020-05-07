@@ -15,8 +15,10 @@ class PushOrderHandler(BaseLambdaHandler):
     def __init__(self, dbObject):
         super().__init__(dbObject)
         self.stripeKey = miscellaneous['stripeAPIkey']
+        self.customerEmail = None
 
     def handle_request(self, event: dict, context: dict) -> dict:
+        stripe.api_key = self.stripeKey
         data = event['body'].replace("'", "\"")
         data = json.loads(data)
 
@@ -27,8 +29,8 @@ class PushOrderHandler(BaseLambdaHandler):
 
         table = self.db.getTable()
 
-        venue_id = event["data"]["object"]["metadata"]["venueid"]
-        type_id = event["data"]["object"]["metadata"]["typeid"]
+        venue_id = data["data"]["object"]["metadata"]["venueid"]
+        type_id = data["data"]["object"]["metadata"]["typeid"]
 
         try:
             response = table.get_item(
@@ -46,10 +48,12 @@ class PushOrderHandler(BaseLambdaHandler):
         pos_id = response['Item']['posid']
         creds = response['Item']['poscreds']
 
-        pos = self.getPOSObject(pos_id, event["venueid"], creds)
+        pos = self.getPOSObject(pos_id, venue_id, creds)
+        data['customerEmail'] = self.getCustomerEmail(data)
+        self.customerEmail = data['customerEmail']
 
         try:
-            receipt = pos.pushOrder(event)
+            receipt = pos.pushOrder(data)
         except ClientError as e:
             return {
                 'statusCode': self.clientErrorCode
@@ -65,6 +69,14 @@ class PushOrderHandler(BaseLambdaHandler):
         if stripeEvent.type == 'checkout.session.completed':
             return True
         return False
+
+    @staticmethod
+    def getCustomerEmail(data) -> str:
+        customer = stripe.Customer.retrieve(
+            data["data"]["object"]["customer"],
+            stripe_account=data['data']['object']['metadata']['acct']
+        )
+        return customer['email']
 
     def getPOSObject(self, pos_id: str, venue_id: str, creds: list):
         if pos_id == "Odoo":

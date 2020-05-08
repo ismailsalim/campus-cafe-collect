@@ -2,7 +2,7 @@
 **Members:** Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 ## Project Title: Application Integration for Restaurant Apps
 
-### Supervisor: Dr. Thomas Heinis
+## Supervisor: Dr. Thomas Heinis
 
 ## Application URL
 To use the application, open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.

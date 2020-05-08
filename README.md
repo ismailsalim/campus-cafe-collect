@@ -49,6 +49,13 @@ Enter the following command frontend/restaurant-app-react
 ```
 
 ## To run the backends tests:
-To execute coverage tool, enter the following commands from the directory's root:
-Statements: coverage run -m unittest discover tests
-Branches: coverage run --branch -m unittest discover tests
+Execute the following commands in the root directory:
+
+Statement Coverage
+```bash
+coverage run -m unittest discover tests
+```
+Branch Coverage
+```bash
+coverage run --branch -m unittest discover tests
+```

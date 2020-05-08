@@ -44,7 +44,7 @@ yarn build
 ## Frontend Tests
 To obtain the front-end test results, run:
 ```bash
-.frontend/restaurant-app-react/node_modules/.bin/jest
+./frontend/restaurant-app-react/node_modules/.bin/jest
 ```
 
 ## Backend Tests

@@ -1,6 +1,6 @@
 # Group 11
 **Members:** Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
-# Title: Application Integration for Restaurant Apps
+# Project Title: Application Integration for Restaurant Apps
 
 ## Application URL
 To use the application, open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.

@@ -1,5 +1,5 @@
+# Group 11 MSC Project
 # Application Integration for Restaurant Apps
-# Group 11
 ## Group Members
 Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 

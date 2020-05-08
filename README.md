@@ -48,14 +48,14 @@ Enter the following command frontend/restaurant-app-react
 ./node_modules/.bin/jest
 ```
 
-## To run the backends tests:
-Execute the following commands in the root directory:
+## Backend Test Coverage:
+In the root directory, execute the following commansds...
 
-Statement Coverage
+For statement coverage
 ```bash
 coverage run -m unittest discover tests
 ```
-Branch Coverage
+For branch coverage
 ```bash
 coverage run --branch -m unittest discover tests
 ```

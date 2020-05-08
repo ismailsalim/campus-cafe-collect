@@ -4,7 +4,7 @@
 Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 
 ## Application URL
-http://production.dolxjcfav4ei2.amplifyapp.com
+[Link](http://production.dolxjcfav4ei2.amplifyapp.com)
 
 ## Use of application
 ### To find venues:

@@ -21,7 +21,7 @@ To use the application, open [this link](http://production.dolxjcfav4ei2.amplify
 **To retrieve order confirmation,** enter any valid email address.
 
 ## To run the frontend locally
-Run commands: (1) and either  (2a) or (2b) in ```./frontend/restaurant-app-react/```:
+Run commands (1) and either  (2a) or (2b) in ```./frontend/restaurant-app-react/```:
 1. Pre-build: 
 ```bash
 yarn install
@@ -51,13 +51,13 @@ To install the dependencies, run:
 pip install -r requirements.txt
 ```
 
-To obtain the statement coverage, run:
+To obtain the statement coverage, run in ```/backend/src```:
 ```bash
 coverage run -m unittest discover tests
 coverage html
 ```
 
-To obtain the branch coverage, run:
+To obtain the branch coverage, run in ```/backend/src```:
 ```bash
 coverage run --branch -m unittest discover tests
 coverage html

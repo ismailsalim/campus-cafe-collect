@@ -21,7 +21,7 @@ To use the application, open [this link](http://production.dolxjcfav4ei2.amplify
 **To retrieve order confirmation,** enter any valid email address.
 
 ## To run the frontend locally
-Run command (1) and either (2a) or (2b):
+Run command (1) and either (2a) or (2b) in ```./frontend/restaurant-app-react/```:
 1. Pre-build: 
 ```bash
 yarn install
@@ -40,7 +40,7 @@ yarn build
 ## Frontend Test Suite
 To run:
 ```bash
-./node_modules/.bin/jest
+.frontend/restaurant-app-react/node_modules/.bin/jest
 ```
 
 ## Backend Test Coverage

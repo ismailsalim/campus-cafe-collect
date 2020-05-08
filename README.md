@@ -3,12 +3,13 @@
 # Title: Application Integration for Restaurant Apps
 
 ## Application URL
-To use our final product open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.
+To use the application, open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.
 
 ## Best use of the application
-- On landing, enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
+On landing, enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
 
-- To make a payment, enter the following card details...
+To make a payment, enter the following card details...
+
 *Name:* Anything
 
 *Card Number:* 4242 4242 4242 4242

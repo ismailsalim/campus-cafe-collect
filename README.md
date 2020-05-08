@@ -8,7 +8,7 @@ To use the application, open [this link](http://production.dolxjcfav4ei2.amplify
 ## Best use of the application
 On landing, enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
 
-To make a payment, enter the following card details...
+To make a payment, enter the following card details:
 
 *Name:* Anything
 
@@ -18,8 +18,7 @@ To make a payment, enter the following card details...
 
 *CVC:* 123
 
-### To retrieve order confirmation:
-Enter any valid email address
+Enter any valid email address to retrieve order confirmation.
 
 ## To run the frontend locally:
 Enter the following commands in the terminal

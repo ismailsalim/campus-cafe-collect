@@ -7,7 +7,7 @@
 ## Application URL
 To use the application, open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.
 
-## Application Best Use
+## For Best Use Of The Application 
 **On landing,** enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
 
 **To make a payment,** enter the following card details:
@@ -22,7 +22,7 @@ To use the application, open [this link](http://production.dolxjcfav4ei2.amplify
 
 **To retrieve order confirmation,** enter any valid email address.
 
-## To Run Application Locally
+## To Run The Application Locally
 Run commands (1) and either  (2a) or (2b) in ```/frontend/restaurant-app-react/```:
 1. Pre-build: 
 ```bash

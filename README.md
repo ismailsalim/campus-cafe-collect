@@ -4,9 +4,9 @@
 Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 
 ## Application URL
-[Link](http://production.dolxjcfav4ei2.amplifyapp.com)
+http://production.dolxjcfav4ei2.amplifyapp.com
 
-## Use of application
+## Use of the application
 ### To find venues:
 Enter the postcode: **SW7 2AZ**
 

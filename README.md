@@ -6,20 +6,19 @@ Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 ## Application URL
 http://production.dolxjcfav4ei2.amplifyapp.com
 
-## 
+## Use of application
 ### To find venues:
-Enter the postcode *SW7 2AZ*
+Enter the postcode: **SW7 2AZ**
 
+### To make a payment:
+Enter the following card details
+*Name:* Anything
+*Card Number:* 4242 4242 4242 4242
+*Expiry Date:* Any future date
+*CVC:* 123
 
-To simulate a payment:
-Enter the following card details:
-Name: Anything
-Card Number: 4242 4242 4242 4242
-Expiry Date: Any future date
-CVC: Any
-
-To retrieve order confirmation:
-Enter valid email
+### To retrieve order confirmation:
+Enter any valid email address
 
 ## To run the frontend locally:
 Enter the following commands in the terminal

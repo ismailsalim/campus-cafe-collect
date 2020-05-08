@@ -21,8 +21,7 @@ To use the application, open [this link](http://production.dolxjcfav4ei2.amplify
 **To retrieve order confirmation,** enter any valid email address.
 
 ## To run the frontend locally
-Run the following commands in terminal
-
+Run command (1) and either (2a) or (2b):
 1. Pre-build: 
 ```bash
 yarn install
@@ -38,20 +37,26 @@ yarn start
 yarn build
 ```
 
-## To run the frontend test suite
-Enter the following command frontend/restaurant-app-react
+## Frontend Test Suite
+To run:
 ```bash
 ./node_modules/.bin/jest
 ```
 
-## Backend Test Coverage:
-In the root directory, execute the following commansds...
+## Backend Test Coverage
+To install the dependencies, run:
+```bash
+pip install -r requirements.txt
+```
 
-For statement coverage
+To obtain the statement coverage, run:
 ```bash
 coverage run -m unittest discover tests
+coverage html
 ```
-For branch coverage
+
+To obtain the branch coverage, run:
 ```bash
 coverage run --branch -m unittest discover tests
+coverage html
 ```

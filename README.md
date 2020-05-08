@@ -23,7 +23,7 @@ To use the application, open [this link](http://production.dolxjcfav4ei2.amplify
 **To retrieve order confirmation,** enter any valid email address.
 
 ## To run the frontend locally
-Run commands (1) and either  (2a) or (2b) in ```./frontend/restaurant-app-react/```:
+Run commands (1) and either  (2a) or (2b) in ```/frontend/restaurant-app-react/```:
 1. Pre-build: 
 ```bash
 yarn install

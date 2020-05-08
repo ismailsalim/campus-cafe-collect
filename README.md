@@ -1,7 +1,7 @@
 # MSc Group Project
 # Title: Application Integration for Restaurant Apps
 ## Group 11
-*Members* = Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
+**Members:** Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 
 ## Application URL
 http://production.dolxjcfav4ei2.amplifyapp.com

@@ -6,9 +6,9 @@
 To use the application, open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.
 
 ## Best use of the application
-On landing, enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
+**On landing,** enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
 
-To make a payment, enter the following card details:
+**To make a payment,** enter the following card details:
 
 *Name:* Anything
 
@@ -18,10 +18,10 @@ To make a payment, enter the following card details:
 
 *CVC:* 123
 
-Enter any valid email address to retrieve order confirmation.
+**To retrieve order confirmation,** enter any valid email address.
 
-## To run the frontend locally:
-Enter the following commands in the terminal
+## To run the frontend locally
+Run the following commands in terminal
 
 1. Pre-build: 
 ```bash

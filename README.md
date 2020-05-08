@@ -40,7 +40,7 @@ yarn build
 3. Site will be hosted at ```localhost:8081```
 
 ## Frontend Test Suite
-To run:
+To obtain the front-end test results, run:
 ```bash
 .frontend/restaurant-app-react/node_modules/.bin/jest
 ```

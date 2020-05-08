@@ -12,9 +12,13 @@ Enter the postcode: **SW7 2AZ**
 
 ### To make a payment:
 Enter the following card details
+
 *Name:* Anything
+
 *Card Number:* 4242 4242 4242 4242
+
 *Expiry Date:* Any future date
+
 *CVC:* 123
 
 ### To retrieve order confirmation:

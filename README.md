@@ -3,13 +3,15 @@
 ## Group Members
 Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 
-## Application URL:
+## Application URL
 http://production.dolxjcfav4ei2.amplifyapp.com
 
-Postcode with registered venues:
-SW7 2AZ
+## 
+### To find venues:
+Enter the postcode *SW7 2AZ*
 
-To process a payment:
+
+To simulate a payment:
 Enter the following card details:
 Name: Anything
 Card Number: 4242 4242 4242 4242

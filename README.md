@@ -48,7 +48,10 @@ To obtain the front-end test results, run:
 ```
 
 ## Backend Tests
-To install the dependencies, run:
+
+We recommend creating a new environment to avoid any unforseen issues.
+
+To install the dependencies, run in ```/backend/src```:
 ```bash
 pip install -r requirements.txt
 ```
@@ -64,3 +67,5 @@ To obtain the branch coverage, run in ```/backend/src```:
 coverage run --branch -m unittest discover tests
 coverage html
 ```
+
+The respective HTML file will be called index.html and will be in the newly created htmlcov folder.

@@ -1,5 +1,5 @@
 # Group 11
-**Members:** Ismail Salim, Hamish Hall. Jamal Afzali, Bogdan Cristal, Alberto Marzetta
+**Members:** Ismail Salim, Hamish Hall, Jamal Afzali, Bogdan Cristal, Alberto Marzetta
 ## Project Title: Application Integration for Restaurant Apps
 
 ## Supervisor: Dr. Thomas Heinis

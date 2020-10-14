@@ -3,8 +3,7 @@
 ### A proof of concept web app for ordering and collecting food from Imperial's cafes
 
 <p float="left">
-<img src="images/map_view.png" height="400">
-<img src="images/venue_page.png" height="400">
+<img src="images/map_view.png" height="500">
 </p>
 
 

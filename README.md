@@ -1,4 +1,4 @@
-![Landing Page](images/landing_page.png)
+![Landing Page](images/landing_page.png = 300x)
 
 ## Campus Cafe Collect (Backend Repository)
 ### A proof of concept web app for ordering and collecting food from Imperial's cafes

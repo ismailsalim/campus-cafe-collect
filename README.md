@@ -1,4 +1,4 @@
-<img src="images/landing_page.png" height="800">
+<img src="images/landing_page.png" height="500">
 
 ## Campus Cafe Collect (Backend Repository)
 ### A proof of concept web app for ordering and collecting food from Imperial's cafes
@@ -7,6 +7,8 @@
 To use the application, open [this link](http://production.dolxjcfav4ei2.amplifyapp.com) in any browser.
 
 **On landing,** enter the postcode **SW7 2AZ** to find restaurants that we have simulated.
+
+<img src="images/payment.png" height="500">
 
 **To make a payment,** enter the following card details:
 

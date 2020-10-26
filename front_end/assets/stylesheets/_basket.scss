@@ -1,0 +1,45 @@
+.basket {
+  width: 100%;
+  background-color: white;
+  padding: 15px;
+  // box-shadow: 3px 3px 3px $lighter-grey;
+  border-top: 1px solid $lighter-grey;
+}
+.basket-desktop {
+  height: 130px;
+}
+
+.basket-mobile {
+  height: 100px;
+  position: fixed;
+  bottom: 0;
+}
+
+.basket-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: $dark;
+}
+
+.co-button {
+  cursor: pointer;
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
+  background-color: $main-blue;
+  padding: 15px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  &:hover {
+    transform: scale(1.03);
+    text-decoration: none;
+  }
+}
+
+.basket-close {
+  display: none;
+}
+

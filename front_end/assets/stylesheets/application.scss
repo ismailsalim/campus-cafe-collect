@@ -1,0 +1,27 @@
+@import './config/colors';
+
+@import 'home';
+@import 'navbar';
+@import 'filters';
+@import 'venueslist';
+@import 'venuepage';
+@import 'basket';
+@import 'map';
+@import 'landing';
+@import 'success';
+
+html, body {
+  font-family: Helvetica !important;
+  margin: 0px;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  line-height: 1.0 !important;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+

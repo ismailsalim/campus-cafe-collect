@@ -1,0 +1,106 @@
+.landing-page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.webp .landing-page {
+  background-image: url('https://restaurant-app.s3.eu-west-2.amazonaws.com/New+Project.webp');
+}
+.no-webp .landing-page {
+  background-image: url('https://restaurant-app.s3.eu-west-2.amazonaws.com/New+Project.png');
+}
+
+.landing-title {
+  font-size: 24px;
+  color: $main-blue;
+  font-weight: bold;
+}
+.landing-input {
+    border-left: 1px solid $grey;
+    border-top: 1px solid $grey;
+    border-bottom: 1px solid $grey;
+    margin-top: 10px;
+    width: 240px;
+    height: 40px;
+    &:focus {
+      outline: none;
+    }
+    padding-left: 10px;
+    font-size: 20px;
+    color: $dark
+}
+
+.input-inline {
+  display: flex;
+}
+
+.landing-button {
+  height: 40px;
+  width: 70px;
+  background-color: $main-blue;
+  color: white;
+  font-weight: bold;
+  margin-top: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 0 5px 5px 0;
+}
+
+.landing-paragraph {
+  margin-top: 20px;
+  color: $grey;
+  font-size: 20px;
+}
+
+.landing-box {
+  box-shadow: 0px 0px 115px $lighter-grey;
+  background-color: white;
+
+  padding: 20px;
+
+  overflow-wrap: normal;
+  max-width: 470px;
+}
+
+@media (min-width: 600px) {
+  .landing-box {
+    padding: 30px;
+    border-radius: 10px;
+  }
+  .landing-title {
+    font-size: 42px;
+  }
+  .landing-input {
+    width: 340px;
+
+  }
+}
+
+
+
+.error-page {
+  width: 130px;
+  border-radius: 5px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

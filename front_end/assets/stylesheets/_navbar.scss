@@ -1,0 +1,181 @@
+.navbarr {
+  // width: 100vw;
+  // height: 70px;
+  padding: 8px;
+  // background-color: red;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $lighter-grey;
+  box-shadow: 2px 2px 3px $lighter-grey;
+}
+
+
+
+.navbar-logo {
+
+  margin-right: 10px;
+}
+
+.navbar-icon {
+  color: $main-blue;
+  font-size: 30px;
+}
+
+.navbar-section {
+  display: flex;
+  align-items: center;
+}
+
+
+.nav-searchbar {
+  height: 42px;
+  font-size: 15px;
+  width: 230px;
+  border: 1px solid $lighter-grey;
+  border-radius: 3%;
+  color: $dark;
+  padding-left: 6px;
+  &:focus {
+    outline: none;
+  }
+}
+
+@media (min-width: 600px) {
+  .nav-searchbar{
+    width: 450px;
+    font-size: 18px;
+  }
+  .navbar {
+    padding: 12px 15px;
+  }
+  .navbar-basket {
+    margin-right: 20px;
+  }
+  .suggestions {
+    width: 450px !important;
+  }
+}
+
+.navbar-sign-in {
+  color: $main-blue;
+  font-weight: bold;
+  border-radius: 5%;
+  border: 2px solid white;
+  height: 30px;
+  padding: 0px 5px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-basket-icon {
+
+  z-index: 100;
+  margin-right: -8px;
+}
+
+.navbar-basket {
+  margin-right: 0px;
+  display: flex;
+  align-items: center;
+  // position: relative;
+
+}
+
+.basket-active {
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.10);
+    text-decoration: none !important;
+  }
+}
+
+
+
+.basket-cost {
+  height: 46px;
+  width: 46px;
+  z-index: -100;
+  background-color: $pink;
+  color: white;
+  border-radius: 50%;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  // &:hover {
+  //   transform: scale(1.13)
+  // }
+
+
+}
+
+.nav-magnifying {
+  margin-top: -3px;
+  font-size: 23px;
+  margin-left: -60px;
+  color: $pink;
+
+  &:active {
+    outline: none;
+  }
+
+}
+
+
+.nav-btn {
+  color: white;
+  background-color: white;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.suggestions {
+  z-index: 1000;
+  background-color: white;
+  width: 230px;
+  position: absolute;
+  top: 42px;
+  border: 1px solid $lighter-grey;
+
+}
+
+.navsearch-box {
+  position: relative;
+}
+
+.suggestion {
+  display: flex;
+  // justify-content: space-between;
+  padding: 10px 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: $lighter-grey;
+  }
+}
+
+.sugg-content {
+  // margin-left: auto;
+  display: flex;
+  font-size: 20px;
+}
+
+.sugg-item {
+  color: $dark;
+}
+
+.sugg-count {
+  color: $grey;
+  margin-left: 15px;
+}
+.sugg-span {
+  display: flex;
+}
+
+
+

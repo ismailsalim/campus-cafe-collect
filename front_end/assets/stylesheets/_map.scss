@@ -1,0 +1,19 @@
+.marker {
+  background-image: url("https://i.imgur.com/MK4NUzI.png");
+  background-size: contain;
+  repeat: none;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 30px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.user-location {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: $main-blue;
+  border: 3px solid white;
+  box-shadow: 0px 0px 10px $main-blue;
+}

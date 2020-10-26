@@ -1,0 +1,62 @@
+.home-main {
+  width: 100vw;
+  height: calc(100vh - 190px);
+}
+
+.venues-container {
+  height: 100%;
+  // background-color: orange;
+  overflow-y: scroll;
+}
+
+.map-box {
+  height: 100%;
+  width: 100%;
+  background-color: $lighter-grey;
+}
+
+.home-desktop {
+  max-width: 100vw !important;
+  height: 100%;
+  display: flex;
+  .venues-container {
+    flex-grow: 1;
+  }
+
+  .map-box {
+    // width: 10%;
+  }
+}
+
+.home-mobile {
+  height: 100%;
+  .venues-container {
+    width: 100%;
+    padding-bottom: 100px;
+  }
+
+  .map-box {
+    // width: 100%;
+    // display: none;
+  }
+}
+
+.map-open {
+  width: 150% !important;
+}
+.map-closed {
+  width: 10%;
+}
+.mobile-on {
+  height: 100%;
+  display: block;
+}
+.mobile-off {
+  display: none;
+}
+
+.invalid-postcode {
+  color: $grey;
+  font-size: 20px;
+  margin-left: 15px;
+}

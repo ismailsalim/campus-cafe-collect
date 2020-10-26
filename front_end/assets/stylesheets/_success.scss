@@ -1,0 +1,59 @@
+.success-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.success-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-icon {
+  color: #0DCC0B;
+  font-size: 80px;
+}
+
+.success-box-top {
+  text-align: center;
+
+  h3 {
+    color: $main-blue;
+  }
+  h5 {
+    color: $grey;
+  }
+}
+
+.order-code {
+  font-weight: bold;
+  color: $dark;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.success-box-info {
+  margin-top: 25px;
+}
+
+.success-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  color: $grey;
+}
+
+.success-total {
+      padding-right: 20px;
+  text-align: right;
+  font-weight: bold;
+  color: $dark;
+}
+.success-box-map {
+  margin-top: 20px;
+  width: 100%;
+  height: 200px;
+}

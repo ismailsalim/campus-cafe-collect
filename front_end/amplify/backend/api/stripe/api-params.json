@@ -1,0 +1,53 @@
+{
+    "paths": [
+        {
+            "name": "/checkout",
+            "lambdaFunction": "stCheckout",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/session",
+            "lambdaFunction": "stSession",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "stripe",
+    "apiName": "stripe",
+    "functionArns": [
+        {
+            "lambdaFunction": "stCheckout"
+        },
+        {
+            "lambdaFunction": "stSession"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-restaurant-app-react-dev-105949-authRole",
+        "unAuthRoleName": "amplify-restaurant-app-react-dev-105949-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "stCheckout",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "stSession",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "093de34c"
+}

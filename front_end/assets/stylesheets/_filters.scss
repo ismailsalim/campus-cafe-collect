@@ -1,0 +1,168 @@
+.filters {
+  width: 100vw;
+  min-height: 120px;
+  // background-color: blue;
+  padding: 15px 15px;
+
+  // align-items: center;
+}
+
+.dummy-button {
+  // background-color: green;
+  width: 90px;
+}
+
+
+.filters-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.type-buttons {
+  display: flex;
+  margin-right: 10px;
+}
+
+.type-button {
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 2px solid $main-blue;
+  margin-right: 5px;
+  border-radius: 3px;
+
+}
+
+.type-deselected {
+  border: 2px solid $lighter-grey;
+  color: $grey;
+  background-color: white;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+
+.type-selected {
+  border: 2px solid $main-blue;
+  background-color: $main-blue;
+  color: white;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.price-slider-cntnr {
+  display: flex;
+  align-items: center;
+}
+
+.price-icon {
+  font-size: 30px;
+  margin: 0px;
+  margin-right: 14px;
+  color: $main-blue;
+}
+
+.price-slider {
+  width: 300px;
+}
+.MuiSlider-root {
+  color: $main-blue !important;
+}
+
+.filters-row-two {
+  margin-top: 00px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: $dark;
+
+  p {
+    margin: 10px 0;
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: 600px) {
+  .filters-row-two  {
+    margin-top: 10px;
+  }
+}
+
+
+.sort-by-box   {
+  background-color: white !important;
+  border:  1px solid $lighter-grey !important;
+  color: $lighter-grey !important;
+  width: 100px;
+  height: 30px;
+  text-align: right !important;
+
+  &:focus {
+    box-shadow: 0 0 0 3px $pink;
+  }
+}
+
+.dropdown-item {
+  color: $dark !important;
+}
+
+.filters-toggle {
+  display: flex;
+}
+
+.toggles-mobile {
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.eatmode-toggle {
+  // cursor: pointer;
+  font-size: 18px;
+  color: $dark;
+  height: 42px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  // &:hover {
+  //   transform: scale(1.05);
+  // }
+}
+
+.eatmode-selected {
+  border: 2px solid $lighter-grey;
+}
+
+.toggle-icon {
+  font-size: 24px;
+  color: $main-blue;
+}
+
+#map-toggle {
+  padding-top: 10px;
+  text-align: center;
+  width: 62px;
+}
+
+.mapbtn-toggle {
+  cursor: pointer;
+  font-size: 18px;
+  color: $dark;
+  height: 42px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  align-text: center;
+  vertical-align: middle;
+  border: 3px solid $lighter-grey;
+  &:hover {
+    transform: scale(1.10);
+    border: 3px solid white;
+    background-color: $lighter-grey;
+    color: white;
+  }
+}
+
+

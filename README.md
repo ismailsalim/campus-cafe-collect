@@ -1,5 +1,5 @@
 
-## Campus Cafe Collect (Backend Repository)
+## Campus Cafe Collect
 ### A proof of concept web app for ordering and collecting food from Imperial's cafes
 
 <p float="left">

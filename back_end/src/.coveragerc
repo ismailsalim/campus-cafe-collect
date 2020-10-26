@@ -1,0 +1,17 @@
+[run]
+omit =
+	tests*
+	*init*
+	*miscellaneous*
+	Lambda*
+[report]
+omit =
+	tests*
+	*init*
+	*miscellaneous*
+	Lambda*
+show_missing = True
+precision = 2
+sort = Cover
+[html]
+title = Backend Statements Coverage Results
